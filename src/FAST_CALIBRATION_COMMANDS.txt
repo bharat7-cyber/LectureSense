@@ -1,0 +1,8 @@
+# Run from the LectureSense project root
+
+copy /Y calibrate_v4_final_fast.py calibrate_v4_final_fast.py
+python -m py_compile calibrate_v4_final_fast.py
+python calibrate_v4_final_fast.py
+
+# After calibration completes:
+python run_formal_test_eval_v4_final.py

@@ -1,0 +1,57 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Local environment/secrets
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# Local datasets, transcripts, and lecture media
+/data/
+*.mp4
+*.mkv
+*.avi
+*.mov
+*.wav
+*.mp3
+*.srt
+*.xlsx
+
+# Generated runs, caches, model features, and reports
+/runs/
+/results/
+/video_patch/
+*.npy
+*.npz
+*.log
+mavils_structure.txt
+
+# Checkpoints / model weights are managed separately by default
+/checkpoints/*.pt
+/checkpoints/*.pth
+/checkpoints/*.ckpt
+/checkpoints/*.safetensors
+
+# Generated demo assets may be large or derive from benchmark data
+/demo/rendered_slides/
+/demo_v4/rendered_slides/
+/demo/timeline.json
+/demo_v4/timeline.json
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
