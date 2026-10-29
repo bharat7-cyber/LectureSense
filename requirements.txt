@@ -12,3 +12,4 @@ sentence-transformers
 faster-whisper
 openpyxl
 tqdm
+av>=11,<19
