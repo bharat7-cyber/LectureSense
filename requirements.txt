@@ -7,10 +7,13 @@ pandas
 Pillow
 PyMuPDF
 easyocr
-opencv-python
 sentence-transformers
 faster-whisper
 openpyxl
 tqdm
 av>=11,<19
 pytesseract==0.3.13
+opencv-python
+opencv-contrib-python
+opencv-python-headless
+opencv-contrib-python-headless
