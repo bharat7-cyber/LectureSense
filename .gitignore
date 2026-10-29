@@ -40,6 +40,7 @@ mavils_structure.txt
 
 # Checkpoints / model weights are managed separately by default
 /checkpoints/*.pt
+!/checkpoints/ranking_4modal_best_model.pt
 /checkpoints/*.pth
 /checkpoints/*.ckpt
 /checkpoints/*.safetensors

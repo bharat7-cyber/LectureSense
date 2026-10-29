@@ -1,4 +1,4 @@
-# Install a PyTorch + torchvision build for your OS/CUDA setup first:
+# Install a compatible PyTorch + torchvision build for your OS/CUDA setup first:
 # https://pytorch.org/get-started/locally/
 
 streamlit
