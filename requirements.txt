@@ -1,6 +1,8 @@
-# Install a compatible PyTorch + torchvision build for your OS/CUDA setup first:
+﻿# Install a compatible PyTorch + torchvision build for your OS/CUDA setup first:
 # https://pytorch.org/get-started/locally/
-
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.11.0+cpu
+torchvision==0.26.0+cpu
 streamlit
 numpy
 pandas
@@ -13,7 +15,5 @@ openpyxl
 tqdm
 av>=11,<19
 pytesseract==0.3.13
-opencv-python
-opencv-contrib-python
-opencv-python-headless
+
 opencv-contrib-python-headless

@@ -26,7 +26,7 @@ import sys
 import time
 from collections import Counter
 from pathlib import Path
-import torch
+import gc
 import streamlit as st
 
 # Streamlit >=1.50 deprecates use_container_width in favour of width="stretch".
@@ -1906,14 +1906,13 @@ def _load_whisper_pipeline():
     if _WHISPER_DEVICE in ("auto", "cuda"):
         try:
             model = WhisperModel(
-                _WHISPER_MODEL_SIZE,
-                device="cuda",
-                compute_type=_WHISPER_GPU_COMPUTE_TYPE,
+                "distil-small.en",
+                device="cpu",
+                compute_type="int8"
             )
 
-            pipeline = BatchedInferencePipeline(model=model)
-
-            return pipeline, "cuda"
+            pipeline = _load_whisper_pipeline()
+            return pipeline
 
         except Exception as exc:
             last_error = exc
@@ -2151,6 +2150,9 @@ def _process_upload(pdf_file, video_file):
     if len(video_bytes) < 1024:
         st.session_state.error = "The lecture recording looks empty or corrupted. Please choose a different MP4 file."
         return
+    # Release the cached Whisper model before starting V11 inference.
+    _load_whisper_pipeline.clear()
+    gc.collect()
 
     fingerprint = _pair_fingerprint(pdf_bytes, video_bytes)
     fp_path = _UPLOAD_DIR / "fingerprint.txt"

@@ -167,6 +167,25 @@ def main() -> None:
             f"V11 model bundle not found: {v11_checkpoint}. It must be the .pt file, not the JSON config."
         )
 
+    
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    work_dir = out_path.parent / "_v11_v4_evidence"
+    work_dir.mkdir(parents=True, exist_ok=True)
+
+    run_v4_stage(
+    transcript=transcript,
+    slides=slides_pdf,
+    video=video,
+    v4_checkpoint=v4_checkpoint,
+    work_dir=work_dir,
+    render_dir=render_dir,
+    video_weight=args.video_weight,
+    video_sample_seconds=args.video_sample_seconds,
+    timeout_seconds=args.timeout_seconds,
+)
+
+# Load V11 checkpoint after V4 inference completes.
     try:
         bundle = torch.load(v11_checkpoint, map_location="cpu", weights_only=False)
     except TypeError:
@@ -174,33 +193,23 @@ def main() -> None:
 
     if not isinstance(bundle, dict) or "models" not in bundle or "feature_names" not in bundle:
         raise RuntimeError("The supplied V11 .pt file does not contain the expected trained model bundle.")
+
     feature_names = list(bundle["feature_names"])
     expected_dim = int(bundle.get("feature_dim", len(feature_names)))
+
     if len(feature_names) != expected_dim:
         raise RuntimeError(f"V11 feature mismatch: feature_names={len(feature_names)}, feature_dim={expected_dim}")
 
     selected_v11 = bool(bundle.get("model_selected_over_v4_on_validation", True))
+
     if not selected_v11:
         raise RuntimeError(
             "This V11 bundle says V11 was not selected over V4 on validation. "
             "Use the selected V4 inference path rather than presenting V11 as the selected model."
         )
 
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    work_dir = out_path.parent / "_v11_v4_evidence"
-    work_dir.mkdir(parents=True, exist_ok=True)
-
-    run_v4_stage(
-        transcript=transcript,
-        slides=slides_pdf,
-        video=video,
-        v4_checkpoint=v4_checkpoint,
-        work_dir=work_dir,
-        render_dir=render_dir,
-        video_weight=args.video_weight,
-        video_sample_seconds=args.video_sample_seconds,
-        timeout_seconds=args.timeout_seconds,
-    )
+    # Existing V11 inference continues below.
+    segments = v11.v7.get_segments(transcript)
 
     segments = v11.v7.get_segments(transcript)
     mids = np.asarray(v11.v7.segment_mids(segments), dtype=np.float32)
