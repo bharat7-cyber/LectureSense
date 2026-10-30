@@ -56,21 +56,15 @@ import pytesseract
 # TESSERACT CONFIGURATION
 # ============================================================
 
-TESSERACT_PATH = Path(
-    r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-)
+import shutil
+import pytesseract
 
-if TESSERACT_PATH.exists():
-    pytesseract.pytesseract.tesseract_cmd = str(
-        TESSERACT_PATH
-    )
+TESSERACT_PATH = shutil.which("tesseract")
+
+if TESSERACT_PATH:
+    pytesseract.pytesseract.tesseract_cmd = TESSERACT_PATH
 else:
-    print(
-        "WARNING: Tesseract executable not found at:"
-    )
-    print(
-        TESSERACT_PATH
-    )
+    print("WARNING: Tesseract OCR is not installed.")
 
 from sentence_transformers import SentenceTransformer
 
