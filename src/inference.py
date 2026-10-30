@@ -50,22 +50,23 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from PIL import Image
-import pytesseract
-
-# ============================================================
-# TESSERACT CONFIGURATION
-# ============================================================
-
+import os
 import shutil
 import pytesseract
 
-TESSERACT_PATH = shutil.which("tesseract")
+TESSERACT_PATH = (
+    shutil.which("tesseract")
+    or (
+        r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+        if os.path.isfile(r"C:\Program Files\Tesseract-OCR\tesseract.exe")
+        else None
+    )
+)
 
 if TESSERACT_PATH:
     pytesseract.pytesseract.tesseract_cmd = TESSERACT_PATH
 else:
     print("WARNING: Tesseract OCR is not installed.")
-
 from sentence_transformers import SentenceTransformer
 
 from torchvision.models import (
