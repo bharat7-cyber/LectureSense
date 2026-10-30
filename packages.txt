@@ -1,12 +1,5 @@
-tesseract-ocr-eng
 tesseract-ocr
+tesseract-ocr-eng
 libgl1
 libglib2.0-0
 ffmpeg
-import shutil
-import pytesseract
-
-tesseract_path = shutil.which("tesseract")
-
-if tesseract_path:
-    pytesseract.pytesseract.tesseract_cmd = tesseract_path
