@@ -90,7 +90,7 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-The MaViLS benchmark assets and trained model checkpoints are intentionally not included in the repository by default. Place the required dataset files and checkpoint files in the expected local paths before running benchmark training/evaluation scripts. Follow the dataset's own access and usage terms.
+The MaViLS benchmark assets are not included in this repository and must be downloaded separately. The trained V4 model checkpoint and V4.2 decoder configuration are included in the repository under `checkpoints/`.
 
 ## Run the Streamlit app
 
@@ -162,3 +162,49 @@ The pipeline saves a JSON result containing metadata and a `timeline` array. Eac
 ## License
 
 No project license has been specified yet. Unless a license is added, reuse and redistribution of this repository's code are not automatically granted. Dataset assets and third-party model/library licenses are separate.
+
+
+## GPU-Accelerated Transcription (Windows)
+
+LectureSense supports NVIDIA GPU acceleration for speech transcription through Faster-Whisper and CTranslate2.
+
+### Tested Hardware
+- GPU: NVIDIA GeForce RTX 2050
+- VRAM: 4 GB
+
+### GPU Dependencies
+
+```powershell
+pip install -r requirements-gpu.txt
+```
+
+### Configuration
+- Whisper model: `distil-small.en`
+- Device: `cuda`
+- Compute type: `int8_float16`
+- Batch size: 2
+
+The application registers NVIDIA DLL directories from the active Python environment on Windows.
+
+### Start Application
+
+```powershell
+python -m streamlit run app.py
+```
+
+## Dataset Documentation
+
+See [DATASET.md](DATASET.md) for MaViLS dataset access and download instructions.
+
+## Sample Screenshots
+
+Application screenshots are available in the `Screenshots/` directory.
+
+## Included Checkpoints
+
+- `checkpoints/temporal_v4_best_model.pt`
+- `checkpoints/v4_2_decoder_tuned_config.json`
+
+## Demo Assets
+
+The `demo_v11/` directory contains rendered slide images and timeline data for the saved demonstration.

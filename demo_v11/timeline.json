@@ -1,0 +1,198 @@
+{
+  "project": "LectureSense",
+  "mode": "offline_srt_pdf",
+  "metadata": {
+    "project": "LectureSense",
+    "model": "LectureSenseV11SupervisedCandidateReranker",
+    "selected_system": "V11",
+    "checkpoint": "C:\\Users\\Bharat\\Downloads\\lecturesense_dl\\lecturesense_dl\\checkpoints\\v11_supervised_candidate_reranker.pt",
+    "base_model": "LectureSenseBoundaryAwareTemporalGRU_V4",
+    "v4_checkpoint": "C:\\Users\\Bharat\\Downloads\\lecturesense_dl\\lecturesense_dl\\checkpoints\\temporal_v4_best_model.pt",
+    "v11_feature_version": 1,
+    "v11_feature_dim": 65,
+    "v11_seeds": [
+      11,
+      29,
+      47
+    ],
+    "decoder": {
+      "max_forward_jump": 1,
+      "jump_penalty": 0.05,
+      "boundary_reward": 0.25,
+      "boundary_stay_penalty": 0.5,
+      "transition_logits_weight": 0.35,
+      "premature_transition_penalty": 0.5,
+      "boundary_threshold": 0.2
+    },
+    "video_enabled": true,
+    "video_weight_for_v4_evidence": 0.4,
+    "visual_first_sample_seconds": 2.0,
+    "num_transcript_segments": 273,
+    "num_slides": 18,
+    "timeline_entries": 18
+  },
+  "timeline": [
+    {
+      "slide_id": 1,
+      "slide_index": 0,
+      "start_time": 1.07,
+      "end_time": 13.83,
+      "text": "In the second unit we are going to discuss the geometric image formation process and basic camera models. We're gonna see how points in 3D space are related to points on the 2D image plane.",
+      "timeline_index": 0,
+      "slide_title": "slide_0001"
+    },
+    {
+      "slide_id": 2,
+      "slide_index": 1,
+      "start_time": 16.51,
+      "end_time": 56.85,
+      "text": "The principle of projection is an old one and as an example we can take for instance the human eye where light is passing through a lens and an aperture and is then collected by photoreceptors on the retina. And the same principle holds true for the first camera obscura which is collecting light through a little tiny hole that's made into the wall of an otherwise entirely dark room and that gives rise to an image on the upper wall and then all the way until the photographic camera has come to life.",
+      "timeline_index": 1,
+      "slide_title": "slide_0002"
+    },
+    {
+      "slide_id": 3,
+      "slide_index": 2,
+      "start_time": 58.53,
+      "end_time": 103.84,
+      "text": "So here's an example of the camera obscura where an entirely dark room is illuminated by the light that is passing through this tiny little hole and creating an image of the objects outside, of the scene outside, upside down in this very dark room. Of course because the aperture is so small and there's so little light coming into the room you have to, you know, you have to adapt to the darkness of that room if you're standing inside that room to actually perceive something. It's actually just very little light. It's not very bright if you create such a camera obscura at home.",
+      "timeline_index": 2,
+      "slide_title": "slide_0003"
+    },
+    {
+      "slide_id": 4,
+      "slide_index": 3,
+      "start_time": 104.63,
+      "end_time": 132.53,
+      "text": "But this has been used, you can find this in various museums, has been used by artists. Here are some examples and on this website you find more examples where ordinary rooms have been illuminated using this principle of a very small pinhole and then an image has been captured inside that room with a very long shutter time and giving rise to installations like you can see here by this artist.",
+      "timeline_index": 3,
+      "slide_title": "slide_0004"
+    },
+    {
+      "slide_id": 5,
+      "slide_index": 4,
+      "start_time": 137.45,
+      "end_time": 305.06,
+      "text": "So the most basic physical pinhole camera can be described as a box that has a little hole inside one of the walls and that hole is collecting light or is letting light pass through but it's letting light pass through only into the direction continuing where the light is coming from. So we have a point here then that light passes through that hole and because light travels linearly along rays that light is hitting this image plane, the sensor here on the back exactly at one location. And because of this the image that is projected is actually projected upside down onto that image plane behind this little hole in the wall which is called a focal point because all the light rays that pass through this hole must pass exactly through this hole, this focal point. However, when we consider camera models in this lecture we typically consider the image plane to be in front of the focal point and not behind the focal point. So here's an example of, despite this being the physical model, the mathematical model looks like this here on the right. The distance from the focal point of this plane is the same as the distance of this image plane to this focal point but in this case the image plane is in front of the focal point. Now in this case the image of the 3D object here is of the same size and the same shape as the image if it's projected behind the focal point. The only difference is that it's mirrored. And so both models are actually equivalent. They are just related by this mirroring so they can be brought into each other using appropriate change of image coordinates. Now in this lecture we're considering this mathematical camera model which has some advantages in the sense that the image is not projected upside down so we can directly see the image as we would see it as humans and that's also how digital cameras store images. They don't store the images upside down but they store them in the right orientation. So this is what we can use as a replacement for this model because both are equivalent up to very simple reflection.",
+      "timeline_index": 4,
+      "slide_title": "slide_0005"
+    },
+    {
+      "slide_id": 6,
+      "slide_index": 5,
+      "start_time": 308.43,
+      "end_time": 456.4,
+      "text": "Now if we talk about projection models there's two basic projection models that are important. There's many more but these two are the ones that we're going to discuss here. And if you want to know about other projection models I recommend having a look into the Silesky book in chapter 2 .1 .4. The first model that we're going to discuss here is the so -called autographic projection model where light is assumed to travel parallel to each other's ray and then projected in that parallel fashion onto that image plane. And in a perspective projection model which is the pinhole camera model where I have a focal point and all the light rays that pass from any 3D point to that focal point, all the light rays must pass through the focal point, are hitting the image plane at the intersection of that line with the image plane. So you can see that here in this case the size of the object changes while here the size remains the same. The object has the same 3D size as the dimensions on the image plane. And both of these projection models are relevant. The traditional projection model is really the perspective projection model that is implemented or that can approximate almost all the cameras that we know like our smartphones, our digital cameras or DSLRs. But if we use a very large focal length, if we have a telephoto lens, then this perspective projection model can be well approximated by an autographic projection model. The perspective effects vanish if we use a telephoto lens and in some cases that's actually wanted. For instance in applications where we want to use optics for measurement, here on the left you can see a so -called telecentric lens that models exactly the autographic projection process. Because if you model that process exactly and you can measure distances then afterwards, after projection on the image plane, you know that these distances correspond one -to -one to the distances in the real world. So this is used for inspection purposes for instance.",
+      "timeline_index": 5,
+      "slide_title": "slide_0006"
+    },
+    {
+      "slide_id": 7,
+      "slide_index": 6,
+      "start_time": 458.79,
+      "end_time": 560.24,
+      "text": "Here is a comparison between perspective and autographic projection and what they do to the image that is formed and that there is a continuous transition in between these two and that's also what you're going to play with and experiment with in the exercise. So here on the left we have a classic, this is all the same cube but here it's projected using a perspective projection where the vanishing point is in the vicinity and not at infinity and we can see that these edges of that 3D cube that are all parallel to each other in 3D are intersecting at this vanishing point that we see here on this image. Now if we increase the focal length we come to a weak perspective setting or closer to a weak perspective setting where this vanishing point moves outside this image domain that we're considering here and if we increase the focal length even further, if we move the camera infinitely far away from the object and at the same time increase the focal length to infinity, which of course is physically impossible without such a telecentric lens, then we obtain an autographic projection here where then all the lines that are parallel in 3D are actually also parallel in the image that is projected, in the image that we have captured with the camera and here at the bottom you can see two examples of a perspective projection and a autographic projection or close to autographic projection of a real scene.",
+      "timeline_index": 6,
+      "slide_title": "slide_0007"
+    },
+    {
+      "slide_id": 8,
+      "slide_index": 7,
+      "start_time": 562.59,
+      "end_time": 740.1,
+      "text": "So how can we describe these projections mathematically? Here we see the model for the autographic projection and in all illustrations that I'm showing here the illustrations are only showing the x and the c coordinate. The y coordinate you can think of as going into the image plane here of this camera coordinate system in red but it's just difficult to draw in 3D and it's confusing so I draw everything just as this cut in x and c dimensions. So what we have here is the camera center, the origin where the camera coordinate system is defined, this is the x, y, c coordinate system where the 3D coordinates of a 3D point in 3D space are defined and then in the autographic projection model the image coordinate system falls together with the x and the y -axis. Here only x illustrated again so we have the x and the x -axis of the image coordinate system in blue and the x -axis of the camera coordinate system in red that are the same and the same holds true for the y -axis. And now because the light rays travel parallel to the so -called principal line here and parallel to each other we know that if we have this point xc, c stands for camera coordinates and s stands for screen coordinates or image coordinates, we know that the x and the y coordinates are actually remaining the same. So everything that we have done in this projection is we have removed the c coordinate but xs, so this is the 3D point and the non -bold version is the x coordinate of that 3D point and that x coordinate of the 3D point is projected to the same value in the image plane so the x coordinate in screen coordinates is the same value as the x coordinate in the camera coordinates and the same holds true for the y coordinate. So this is how an autographic projection of a 3D point bold xc in 3D space to pixel coordinates bold xs in the 2D image domain here works. The y and the x -axis of the camera and the image coordinate systems are shared, the light rays are parallel to the c coordinate of the camera coordinate system and during projection, this is also called the principal axis here, this black one, and during projection the c coordinate is dropped and x and y remain the same. And just to highlight it again, the y coordinate is not shown here for clarity but you can think of the y coordinate as going into direction of the image plane, the direction we can see here, but it behaves exactly the same.",
+      "timeline_index": 7,
+      "slide_title": "slide_0008"
+    },
+    {
+      "slide_id": 9,
+      "slide_index": 8,
+      "start_time": 741.92,
+      "end_time": 827.58,
+      "text": "So how can we write this down in terms of linear algebra? Well, we know that an autographic projection simply drops the c component of the 3D point but leaves the other coordinates the same and so we can simply express this in inhomogeneous coordinates as such where we have a 3D point multiplied with this two by three matrix where the last coordinate of this 3D point is multiplied with zero and the first and the second coordinate are copied. And we have an equivalent representation in homogeneous coordinates here with these augmented vectors in camera coordinates in 3D space. So this is a 4D vector and here in screen coordinates now this is a three -dimensional vector where we take this four -dimensional vector and the last element is a one because it's an augmented vector, so the last element of x s will also be a one in this case. But of course again this can be replaced by any homogeneous coordinates. It doesn't need to be augmented vectors. Autography as already mentioned is exact for telecentric lenses and an approximation for telephoto lenses and after projection the distance of the 3D point from the image can't be recovered anymore which is a property that holds true for all projections also for perspective projection of course. So after the projection onto the image plane the distance is unknown.",
+      "timeline_index": 8,
+      "slide_title": "slide_0009"
+    },
+    {
+      "slide_id": 10,
+      "slide_index": 9,
+      "start_time": 832.31,
+      "end_time": 909.99,
+      "text": "Now in practice we're not going to use exactly that model that I've just shown because the image sensor typically measures in pixels. We define the image coordinate system in pixels not in millimeters or meters and so we must scale the coordinates in order to be able to measure in pixels and that's called scaled autography. And so what we have here is simply replace these ones with an s scaling factor so we can scale the x and the y coordinate that we're projecting and still dropping the c coordinate of course. And the unit of this scaling factor is pixel over meter or pixel over millimeter depending on the unit of the 3D point in order to be able to convert the metric 3D points into pixels. So let's assume we have 10 pixels per millimeter and we have a point that is at x 10 millimeters then we would convert this into 100 pixels. Under autography structure and motion can be estimated simultaneously using closed form factorization methods and we're going to see some of these methods in the next lecture.",
+      "timeline_index": 9,
+      "slide_title": "slide_0010"
+    },
+    {
+      "slide_id": 11,
+      "slide_index": 10,
+      "start_time": 913.1,
+      "end_time": 1035.52,
+      "text": "Now having seen the simple autographic projection model we come to the perspective projection model which is a model that we need for almost all traditional cameras where light are focused at a single focal point which is here the camera center. So here is an example of how a 3D point xc in camera coordinates projects to pixel coordinates xs in so here's the image plane now in the screen coordinates. As you can see now the image plane and the image coordinate system are not co -located with the camera coordinate system anymore as before but the image plane is displaced from out of the camera center and all the rays that are all the rays all the light rays here must pass through this focal point through this camera center so there's always the light ray that passes through the camera center the pixel s xs and the 3d point xc this is the constraint and the convention here is that the principal axis is which is this one here is orthogonal to the image plane and aligns with the c -axis so it's called the principal axis and again why the y -coordinate is not shown here for clarity but it behaves similarly. So how does a 3d point now project mathematically to this point xs? Well for this 3d point we know the x -coordinate and we know the c -coordinate in 3d camera coordinates and for this image coordinate we know the x -coordinate on screen in pixels let's say and we know the focal length f right this is the focal length that is the distance of the image plane from the focal point that's",
+      "timeline_index": 10,
+      "slide_title": "slide_0011"
+    },
+    {
+      "slide_id": 12,
+      "slide_index": 11,
+      "start_time": 1035.52,
+      "end_time": 1317.78,
+      "text": "a parameter of cameras we can change it if we have a zoom lens we can change the focal length that will change how big the object will appear on the image plane you can already imagine changing this will change the size of the projection onto the image because the image plane moves it translates left to right. Now what is the relationship that we can infer from this geometric constellation? Well we see that there's a set of equal triangles so we have this triangle here xs and f so if we divide xs divided by f we must have the same ratio as if we divide xc by cc just by the principle of equal triangles so we have this triangle this big triangle here and this little small triangle here and this is what i've written here on the right hand side so in other words i can solve this for xs by saying well the pixel coordinate x is equal to xc divided by cc multiplied with the focal length f and this is exactly the pinhole projection formula and it also holds for y of course ys is equal to yc divided by cc times f. Now we can also formulate this mathematically in terms of a matrix multiplication if we use homogeneous coordinates so as we've seen in perspective projection 3d points and camera coordinates are mapped to the image plane by dividing them by their c component and multiplying with the focal length that's what we've just derived and this is this expression here in for both the x and the y coordinate in regular inhomogeneous coordinates. Now while this is a non -linear expression because we have to divide by c in homogeneous coordinates we can write this as a linear equation so assume a matrix called a camera matrix or projection matrix there's a 3x4 matrix here with the focal length on the diagonal and zeros in the last column and if we multiply this with the homogeneous four -dimensional augmented vector xc of the 3d point then we obtain well xcf, ycf and then the third coordinate cc and if we now not this is a homogeneous three -dimensional homogeneous vector and if we normalize that homogeneous vector into an augmented vector where the last element is one we obtain exactly fxc over cc and fyc over cc in the first two coordinates elements of this vector right so by using this homogeneous representation because we have these points that are all equivalent to each other and by the definition of conversion from homogeneous coordinates to inhomogeneous coordinates we are representing the projection process so that we can express this entire process here with a simple linear multiplication if we assume homogeneous coordinates and then afterwards do the conversion to inhomogeneous coordinates by dividing by the third element of the homogeneous vector. So the important point here is this projection is linear when using homogeneous coordinates and after the projection again as in the autographic case it's impossible to recover the distance of the 3d point from the image. As a little remark the unit for f is typically chosen as pixels to convert metric 3d points into pixels if you look at this expression here if we have a 3d point that's expressed in meters so we have x and c being defined as meters but the screen coordinates are supposed to be in pixels then of course the unit of f has to be also defined in pixels because the meters cancel here and so the only thing that remains is the screen coordinate in pixel and that's why the focal length in our models that we're using is often going to be defined in pixels.",
+      "timeline_index": 11,
+      "slide_title": "slide_0012"
+    },
+    {
+      "slide_id": 13,
+      "slide_index": 12,
+      "start_time": 1327.2,
+      "end_time": 1438.6,
+      "text": "This is the most basic form of the pinhole projection principle but we can add more parameters and one important parameter is the so -called principal point. Why do we need a principal point? Well in the previous model that I've explained the image coordinate system and this is now a 3d illustration of this one here the image coordinate system is defined on the principal axis is centered on the principal axis but it's inconvenient to store pixels with negative coordinates. Consider a pixel here that would have negative coordinates with respect to that coordinate system so what is done is in practice is and also I have already as you can see here oriented the coordinate system in a way that is convenient to store images what we can do here is we can move that coordinate system to the top left of the image so this is the the viewpoint here so looking from behind this is the top left corner of the image and so the the first pixel here well if we move this coordinate system we'll be located at 0, 0 or 1, 1 if you use a 1 -based coordinate system which is much more convenient to store image arrays and that's what we typically do in practice we don't consider negative pixels but we consider just positive pixels and define the image coordinate system here which means that this principal point here must be added to the image coordinates such that we obtain only positive coordinates and that's called the principal point Cx and Cy that's added to the pixel coordinates after this projection that was discussed on the previous slide.",
+      "timeline_index": 12,
+      "slide_title": "slide_0013"
+    },
+    {
+      "slide_id": 14,
+      "slide_index": 13,
+      "start_time": 1441.23,
+      "end_time": 1594.86,
+      "text": "So the complete perspective projection model without distortion is given by this equation here where you can see that now in addition to this multiplying the focal length with x divided by c we have also now a translation by the principal point and we have done two more modifications here so one modification is that we have allowed the focal length in x direction to differ from the focal length in y direction and we have added another scaling factor here that allows for this is called this Q that allows for modeling sensors that are not mounted perpendicular to the optical axis due to manufacturing inaccuracies. Fx and Fy however would only be independent from each other if we have different pixel aspect ratios and sensors are manufactured typically pretty precise so in practice what we often do is we set Fx equal to Fy and also this Q is typically very small so that in practice often this Q is set to zero but we have to model in almost all cases that we consider the principal point right so while F can be set the same and S can be set to zero the principal point is still an important parameter that we want to estimate that we want to model. Now this is the full camera matrix that is defined through all of these parameters and this is called the intrinsic matrix because it's and actually this is well this is the projection matrix the three by four matrix but the three by three sub matrix here in front is called the calibration matrix K here in red and this is called the intrinsic matrix because it stores all the intrinsic parameters of the camera everything that's intrinsic to the camera like the focal length the sensor ratio the or the pixel ratio the principal point and so on and this is opposed to the so -called extrinsic parameters which is the camera pose with respect to some world coordinate system that's why it's called intrinsic parameters and a projection then can be done in homogeneous coordinates by just taking this four -dimensional homogeneous vector this is representing a 3d point in camera coordinate system and projecting it by multiplying it with this matrix.",
+      "timeline_index": 13,
+      "slide_title": "slide_0014"
+    },
+    {
+      "slide_id": 15,
+      "slide_index": 14,
+      "start_time": 1596.5,
+      "end_time": 1697.32,
+      "text": "Now one thing that's nice about this homogeneous representation is that we can chain transformations so if a 3d point is not represented in camera coordinate systems but is represented in the world coordinate system we can chain the transformation the rigid body transformation that maps a point by multiplying it with this rotation and translation matrix this is an Euclidean transformation that we've seen before so it multiplies that point and afterwards multiplies that point that is now in camera coordinates with the intrinsic matrix so we have the extrinsic and the intrinsic matrix here onto the image plane we can also do this by simply multiplying these two transformations together into one matrix and now we have just to do one matrix multiplication instead of two matrix multiplications and in many cases that's very convenient and can also save time be more efficient so here's the mathematical formulation of this so we have the screen coordinate which is equal to the camera coordinate or camera the 3d point in camera coordinates multiplied with the intrinsics which is equal to the point in world coordinate multiplied with the extrinsics and the intrinsics and then we can multiply these two matrices together this is a 3x3 matrix and this is a 3x4 matrix so obtain a 3x4 projection matrix that directly maps a point from world coordinates to the screen and this 3x4",
+      "timeline_index": 14,
+      "slide_title": "slide_0015"
+    },
+    {
+      "slide_id": 16,
+      "slide_index": 15,
+      "start_time": 1697.32,
+      "end_time": 1841.24,
+      "text": "projection matrix p can be pre -computed can be pre -multiplied and then applied for all the points where we want to apply this projection on sometimes it's preferable to use a full rank 4x4 projection matrix where instead of you know 3x4 matrix with the intrinsics and a 4x4 matrix for the extrinsics we have also a 4x4 matrix for the intrinsics where we simply have added a last row of zeros and a one in the last element now this is of course if we multiply these together we get a 4x4 matrix and now we can take this homogeneous vector this 4d vector representing a 3d point and project it through this matrix and obtain now a four -dimensional homogeneous vector x tilde but because we know this is a point that's on the image screen we must still normalize this vector with respect to the third coordinate not with respect to the fourth coordinate and so what we obtain is this expression here which is familiar because the first three coordinates are the same third coordinate is one by definition and we have this projection here in the first two coordinates and then the last coordinate here is the inverse step as you can see here right and so because this fourth component of this inhomogeneous 4d vector is the inverse depth if the inverse depth is known we can use this full rank matrix to also do the inverse so assume we have this vector where we know the depth we know the inverse depth as well then we can also now because it's a full rank matrix we can invert it and go from an image point to the 3d point and afterwards in order to extract the 3d point we need to normalize with respect to the fourth entry because now we have a point in 3d space but of course we need to know the depth otherwise this wouldn't be possible good",
+      "timeline_index": 15,
+      "slide_title": "slide_0016"
+    },
+    {
+      "slide_id": 17,
+      "slide_index": 16,
+      "start_time": 1841.24,
+      "end_time": 2032.02,
+      "text": "now the last aspect about the geometric image formation process i want to mention is the lens distortion we haven't talked about lenses yet but we'll talk about lenses in the next unit and lenses are important because as already mentioned if we just use a very small pinhole we get very little light on the sensor plane so it's important to have a lens that collects light but if we have a lens system then often also there's a geometric distortion introduced and this linear projection model that we've seen before it doesn't hold exactly anymore there's linear or there's lines in 3d that are projected onto curves in the image plane and this is called distortion so the assumption of the linear projection that straight lines remain straight on the image plane is violated in practice due to this properties of the camera lenses and there's two types of distortions there's radial distortion and tangential distortion and both of them luckily can be modeled for most camera models and most lens models relatively easily so here's the formula that is most often used what is done here is we take the point in camera coordinates and first do the normalization by the c coordinate but we don't multiply the focal length yet and then we compute the radius and then with these components x y and r we can multiply those with these or we can apply these polynomials to them that model the radial distortion and the tangential distortion so we see here how the x y point is transformed through this equation non -linearly to yield a point x prime that is the distorted point so from the undistorted point we get a distorted point and then this distorted point is multiplied with the focal length so this is now the focal length from the pinhole model and the principal point is added and so this is this is everything that we need to do in order to also model very basic radial and tangential distortion and the nice thing about this is that well while this looks ugly at first glance the nice thing is that this can actually be undone this effect is invertible because these transformations are typically monotonic so we can pre -compute undistorted images from distorted images and then still apply the pinhole model directly on this undistorted images that have been simply pre -computed before using the image or the projection models that we want to use the simple pinhole projection model and that's what's what's typically used in practice we are undistorting the images before using them now this is a very relatively simple model more complex distortion models must be used for more complex lenses like in particular wide angle",
+      "timeline_index": 16,
+      "slide_title": "slide_0017"
+    },
+    {
+      "slide_id": 18,
+      "slide_index": 17,
+      "start_time": 2032.02,
+      "end_time": 2081.8,
+      "text": "lenses that do not follow this simple polynomial model and here's some examples of how this looks like you are probably familiar with this there's an example of a checkerboard here and if we have so -called barrel distortion we obtain an effect like here if you have the inverse of that the negative effect is called pincushion distortion and we get a projection that looks like this and you can see in both cases the lines are not projected to lines but to curves and also depending on the type of distortion the projected image becomes smaller or larger so you need to use a different crop on the image sensor to fully exploit the projected image",
+      "timeline_index": 17,
+      "slide_title": "slide_0018"
+    }
+  ]
+}

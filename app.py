@@ -29,6 +29,44 @@ from pathlib import Path
 import gc
 import streamlit as st
 
+
+# Register NVIDIA CUDA DLL directories for Windows
+_DLL_DIRECTORY_HANDLES = []
+
+def _register_nvidia_dll_directories():
+    if os.name != "nt":
+        return
+
+    import sysconfig
+
+    site_packages = Path(sysconfig.get_paths()["purelib"])
+    nvidia_dir = site_packages / "nvidia"
+
+    if not nvidia_dir.exists():
+        raise RuntimeError(
+            f"NVIDIA Python libraries not found: {nvidia_dir}"
+        )
+
+    dll_dirs = [
+        p for p in nvidia_dir.glob("*/bin")
+        if p.is_dir()
+    ]
+
+    if not dll_dirs:
+        raise RuntimeError("No NVIDIA DLL directories found.")
+
+    for dll_dir in dll_dirs:
+        # Register DLL directory with the Windows loader.
+        handle = os.add_dll_directory(str(dll_dir))
+
+        # Keep handles alive for the application lifetime.
+        _DLL_DIRECTORY_HANDLES.append(handle)
+
+        # Also expose directories through PATH.
+        os.environ["PATH"] = (
+            str(dll_dir) + os.pathsep + os.environ.get("PATH", "")
+        )
+
 # Streamlit >=1.50 deprecates use_container_width in favour of width="stretch".
 import inspect as _inspect
 _FULL = ({"width": "stretch"} if "width" in _inspect.signature(st.button).parameters
@@ -64,18 +102,16 @@ _IMAGE_SUFFIXES = (".png", ".jpg", ".jpeg", ".webp")
 # ============================================================
 # FAST WHISPER CONFIG — RTX 2050 / 4GB VRAM
 # ============================================================
-
+_WHISPER_DEVICE = "cuda"
 _WHISPER_MODEL_SIZE = "distil-small.en"
 
-# Automatically use CUDA when available.
-_WHISPER_DEVICE = "auto"
-
-# RTX 2050 compatible.
-_WHISPER_GPU_COMPUTE_TYPE = "float16"
+_WHISPER_GPU_COMPUTE_TYPE = "int8_float16"
 _WHISPER_CPU_COMPUTE_TYPE = "int8"
 
+_WHISPER_BEAM_SIZE = 1
+
 # Keep this at 8 for stable 4GB VRAM usage.
-_WHISPER_BATCH_SIZE = 8
+_WHISPER_BATCH_SIZE = 2
 
 # Greedy decoding = significantly faster.
 _WHISPER_BEAM_SIZE = 1
@@ -1889,52 +1925,32 @@ def _render_ai_notes(n: dict):
 # PIPELINE: faster-whisper  ->  V4 inference
 # ============================================================
 
-@st.cache_resource(show_spinner=False)
 
+
+@st.cache_resource(show_spinner=False)
 def _load_whisper_pipeline():
     """
-    Load faster-whisper only once and reuse it across Streamlit reruns.
-    GPU FP16 is preferred; CPU INT8 is the fallback.
+    Load faster-whisper using NVIDIA CUDA GPU.
     """
-    from faster_whisper import WhisperModel, BatchedInferencePipeline
+    # Register CUDA libraries before importing CTranslate2.
+    _register_nvidia_dll_directories()
 
-    last_error = None
+    from faster_whisper import (
+        WhisperModel,
+        BatchedInferencePipeline
+    )
 
-    # --------------------------------------------------------
-    # GPU
-    # --------------------------------------------------------
-    if _WHISPER_DEVICE in ("auto", "cuda"):
-        try:
-            model = WhisperModel(
-                "distil-small.en",
-                device="cpu",
-                compute_type="int8"
-            )
+    model = WhisperModel(
+        _WHISPER_MODEL_SIZE,
+        device="cuda",
+        compute_type=_WHISPER_GPU_COMPUTE_TYPE
+    )
 
-            pipeline = _load_whisper_pipeline()
-            return pipeline
+    pipeline = BatchedInferencePipeline(model=model)
 
-        except Exception as exc:
-            last_error = exc
+    return pipeline, "cuda"
 
-    # --------------------------------------------------------
-    # CPU fallback
-    # --------------------------------------------------------
-    try:
-        model = WhisperModel(
-            _WHISPER_MODEL_SIZE,
-            device="cpu",
-            compute_type=_WHISPER_CPU_COMPUTE_TYPE,
-        )
 
-        pipeline = BatchedInferencePipeline(model=model)
-
-        return pipeline, "cpu"
-
-    except Exception:
-        if last_error is not None:
-            raise last_error
-        raise
 
 
 def _transcribe_video(video_path: Path, out_srt_path: Path, on_progress=None):

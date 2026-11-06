@@ -1,0 +1,75 @@
+{
+  "model": "LectureSense V4.2 (existing V4 checkpoint; no retraining)",
+  "tuning_type": "validation_only_decoder_and_fusion",
+  "validation_only": true,
+  "test_used": false,
+  "test_labels_used_in_this_tuning_run": false,
+  "objective": "weighted",
+  "checkpoint": "C:\\Users\\Bharat\\Downloads\\lecturesense_dl\\lecturesense_dl\\checkpoints\\temporal_v4_best_model.pt",
+  "v4_root": "C:\\Users\\Bharat\\Downloads\\lecturesense_dl\\lecturesense_dl\\runs\\v5_gate_train_v4",
+  "validation_lectures": [
+    "physics",
+    "psychology",
+    "reinforcement_learning",
+    "sensory_systems"
+  ],
+  "baseline_config": {
+    "residual_scale": 1.0,
+    "video_weight": 0.4,
+    "score_temperature": 1.0,
+    "jump_penalty": 0.05,
+    "max_forward_jump": 1,
+    "max_duration_seconds": 120.0,
+    "duration_penalty": 0.003,
+    "max_run_seconds": 900.0,
+    "boundary_reward": 1.0,
+    "boundary_stay_penalty": 0.5,
+    "transition_logits_weight": 0.35,
+    "premature_transition_penalty": 0.5,
+    "boundary_threshold": 0.2
+  },
+  "baseline_validation": {
+    "macro": 0.5566252660791392,
+    "weighted": 0.4998382400517632,
+    "per_lecture": {
+      "physics": 0.7586805555555556,
+      "psychology": 0.5621500559910414,
+      "reinforcement_learning": 0.2880932556203164,
+      "sensory_systems": 0.6175771971496437
+    }
+  },
+  "validation_macro_accuracy": 0.6822265833996712,
+  "validation_weighted_accuracy": 0.6573924296344226,
+  "validation_improvement_macro_pp": 12.560131732053204,
+  "validation_improvement_weighted_pp": 15.755418958265938,
+  "lecture_accuracy": {
+    "physics": 0.8142361111111112,
+    "psychology": 0.6528555431131019,
+    "reinforcement_learning": 0.575353871773522,
+    "sensory_systems": 0.6864608076009501
+  },
+  "fusion": {
+    "residual_scale": 0.5,
+    "video_weight": 0.5,
+    "score_temperature": 0.5
+  },
+  "decoder": {
+    "jump_penalty": 0.05,
+    "max_forward_jump": 1.0,
+    "max_duration_seconds": 60.0,
+    "duration_penalty": 0.03,
+    "max_run_seconds": 900.0,
+    "boundary_reward": 1.0,
+    "boundary_stay_penalty": 2.0,
+    "transition_logits_weight": 0.0,
+    "premature_transition_penalty": 0.5,
+    "boundary_threshold": 0.2
+  },
+  "search": {
+    "evaluations": 544,
+    "seed": 42,
+    "seconds": 398.1,
+    "fast_dp": true,
+    "fusion_matches_cache": true
+  }
+}
